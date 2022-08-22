@@ -1,3 +1,4 @@
+import React from 'react';
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { Box } from 'components/Box';
@@ -17,6 +18,22 @@ export class App extends Component {
     filter: '',
     
   };
+
+  componentDidMount() {
+
+    const contacts = JSON.parse(localStorage.getItem('contacts'));
+
+    if (contacts) {
+      this.setState({ contacts: contacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   deleteContact = ( contactId ) => {
     this.setState(prevState => ({
